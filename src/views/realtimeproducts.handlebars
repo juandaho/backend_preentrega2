@@ -1,0 +1,21 @@
+<div class="form-container">
+    <form id="formProduct" class="product-form">
+        <h2 class="form-title">Real Time Products</h2>
+        <input class="form-control" type="text" name="title" id="title" placeholder="Ingrese Nombre del Producto" required>
+        <input class="form-control" type="text" name="description" id="description" placeholder="Ingrese description" required>
+        <input class="form-control" type="number" name="stock" id="stock" placeholder="Ingrese su stock" required>
+        <input class="form-control" type="text" name="thumbnail" id="thumbnail" placeholder="Ingrese su imagen url" required>
+        <input class="form-control" type="text" name="category" id="category" placeholder="Ingrese categoria" required>
+        <input class="form-control" type="number" name="price" id="price" placeholder="Ingrese su precio" required>
+        <input class="form-control" type="text" name="code" id="code" placeholder="Ingrese su code" required>
+        <button class="btn-submit" type="submit" id="add-btn">Registrar</button>
+        <h2 class="form-title">Para eliminar un producto:</h2>
+        <input class="form-control" type="text" name="id-prod" id="id-prod" placeholder="Ingrese ID">
+        <button class="btn-submit" type="button" id="delete-btn">Eliminar</button>
+    </form>
+</div>
+
+<div class="product-grid" id="list-products"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtime.js"></script>

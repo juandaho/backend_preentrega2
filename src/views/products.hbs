@@ -1,46 +1,67 @@
-<h1 class="products-title">PRODUCTOS</h1>
-<hr class="divider" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Página de Productos</title>
+    <!-- Tus enlaces a archivos CSS u otras dependencias aquí -->
+</head>
+<body>
+    <!-- Encabezado -->
+    <h1 class="products-title">PRODUCTOS</h1>
+    <hr class="divider" />
 
-<div class="new-cart-button">
-    <button onclick="newCart()" id="newCart">Crear tu carrito de compras</button>
-</div>
+    <!-- Botón para crear carrito -->
+    <div class="new-cart-button">
+        <button onclick="newCart()" id="newCart">Crear tu carrito de compras</button>
+    </div>
 
-<div class="cart-info">
-    Id del carrito:
-    <span id="cartDiv" class="cart-id"></span>
-    <a href="http://localhost:8080/api/carts/{{cartDiv.innerHTML}}" id="cartLink" class="cart-link">Ver carrito</a>
-</div>
+    <!-- Botón para eliminar productos del carrito -->
+    <div class="clear-cart-button">
+        <button onclick="clearCart()" id="clearCart">Eliminar productos del carrito de compras</button>
+    </div>
 
-{{#if totalDocs}}
+    <!-- Información del carrito -->
+    <div class="cart-info">
+        Id del carrito:
+        <span id="cartDiv" class="cart-id"></span>
+        <a href="http://localhost:8080/api/carts/{{cartDiv.innerHTML}}" id="cartLink" class="cart-link">Ver carrito</a>
+    </div>
 
-<div class="products-list">
-    Listado de Productos
-    <ul class="product-items">
-        {{#each payload}}
-        <li class="product-item">
-            <img src="{{this.thumbnail}}" alt="{{this.title}}" class="product-thumbnail">
-            <div>
-                {{this.title}} - description: {{this.description}} - Price:$ {{this.price}} 
-            </div>
-            <button onclick="addToCart('{{this._id}}')" class="add-to-cart-button">Agregar al carrito</button>
-        </li>
-        <hr class="item-divider">
-        {{/each}}
-    </ul>
-</div>
+    <!-- Lista de productos -->
+    {{#if totalDocs}}
+    <div class="products-list">
+        Listado de Productos
+        <ul class="product-items">
+            {{#each payload}}
+            <li class="product-item">
+                <img src="{{this.thumbnail}}" alt="{{this.title}}" class="product-thumbnail">
+                <div>
+                    {{this.title}} - description: {{this.description}} - Price:$ {{this.price}} 
+                </div>
+                <button onclick="addToCartFromProducts('{{this._id}}')" class="add-to-cart-button">Agregar al carrito</button>
+            </li>
+            <hr class="item-divider">
+            {{/each}}
+        </ul>
+    </div>
 
-<div class="pagination">
-    {{#if hasPrevPage}}
-    <a href={{prevLink}} class="prev-link"> << Anterior</a>
+    <!-- Paginación -->
+    <div class="pagination">
+        {{#if hasPrevPage}}
+        <a href={{prevLink}} class="prev-link"> << Anterior</a>
+        {{/if}}
+        <span class="current-page">{{page}}</span>
+        {{#if hasNextPage}}
+        <a href={{nextLink}} class="next-link">Siguiente >></a>
+        {{/if}}
+    </div>
+
+    {{else}}
+    <p class="no-products">No hay productos</p>
     {{/if}}
-    <span class="current-page">{{page}}</span>
-    {{#if hasNextPage}}
-    <a href={{nextLink}} class="next-link">Siguiente >></a>
-    {{/if}}
-</div>
 
-{{else}}
-<p class="no-products">No hay productos</p>
-{{/if}}
-
-<script src="js/products.js"></script>
+    <!-- Tu enlace a tu archivo JavaScript -->
+    <script src="js/products.js"></script>
+</body>
+</html>

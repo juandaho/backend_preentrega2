@@ -27,7 +27,7 @@ const newCart = async () => {
     }
 };
 
-const addToCart = async (productId) => {
+const addToCartFromProducts = async (productId) => {
     try {
         if (productId && cartId) {
             const resp = await fetch(

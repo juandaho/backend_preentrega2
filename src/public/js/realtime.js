@@ -1,15 +1,21 @@
 
-const socketClient = io();
+function addToCart(product) {
+    console.log(`Producto agregado: ${product}`);
+    console.log('Producto agregado al carrito');
+}
 
-
-socketClient.on("enviodeproducts", updateProductList);
-
+function clearCart() {
+    shoppingCart = [];
+    console.log('Carrito de compras vaciado');
+}
 
 function updateProductList(products) {
+   
     let div = document.getElementById("list-products");
     let productos = "";
 
     products.forEach((product) => {
+  
         productos += `
             <article class="container">
                 <div class="card">
@@ -37,54 +43,7 @@ function updateProductList(products) {
             </article>`;
     });
 
+   
     div.innerHTML = productos;
 }
 
-
-let form = document.getElementById("formProduct");
-
-form.addEventListener("submit", (evt) => {
-    evt.preventDefault();
-
-    
-    let formData = new FormData(form);
-
-    let productData = {
-        title: formData.get("title"),
-        description: formData.get("description"),
-        stock: formData.get("stock"),
-        thumbnail: formData.get("thumbnail"),
-        category: formData.get("category"),
-        price: formData.get("price"),
-        code: formData.get("code")
-    };
-
-    
-    socketClient.emit("addProduct", productData);
-
- 
-    form.reset();
-});
-
-
-document.getElementById("delete-btn").addEventListener("click", function () {
-    const deleteidinput = document.getElementById("id-prod");
-    const deleteid = deleteidinput.value;
-
-    
-    console.log(`Intentando eliminar producto con ID: ${deleteid}`);
-
-    if (deleteid) {
-        socketClient.emit("deleteProduct", deleteid);
-    } else {
-      
-        console.log("ID del producto no proporcionado");
-    }
-
-    deleteidinput.value = "";
-});
-
-
-socketClient.on('connect_error', (err) => {
-    console.log(`Error de conexión: ${err.message}`);
-});

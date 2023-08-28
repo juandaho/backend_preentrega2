@@ -1,8 +1,10 @@
+
 const socketClient = io();
+
 
 socketClient.on("enviodeproducts", updateProductList);
 
-// Actualizar la lista de productos
+
 function updateProductList(products) {
     let div = document.getElementById("list-products");
     let productos = "";
@@ -38,39 +40,51 @@ function updateProductList(products) {
     div.innerHTML = productos;
 }
 
+
 let form = document.getElementById("formProduct");
+
 form.addEventListener("submit", (evt) => {
     evt.preventDefault();
 
-    let title = form.elements.title.value;
-    let description = form.elements.description.value;
-    let stock = form.elements.stock.value;
-    let thumbnail = form.elements.thumbnail.value;
-    let category = form.elements.category.value;
-    let price = form.elements.price.value;
-    let code = form.elements.code.value;
+    
+    let formData = new FormData(form);
 
-    socketClient.emit("addProduct", {
-        title,
-        description,
-        stock,
-        thumbnail,
-        category,
-        price,
-        code
-    });
+    let productData = {
+        title: formData.get("title"),
+        description: formData.get("description"),
+        stock: formData.get("stock"),
+        thumbnail: formData.get("thumbnail"),
+        category: formData.get("category"),
+        price: formData.get("price"),
+        code: formData.get("code")
+    };
 
+    
+    socketClient.emit("addProduct", productData);
+
+ 
     form.reset();
 });
+
 
 document.getElementById("delete-btn").addEventListener("click", function () {
     const deleteidinput = document.getElementById("id-prod");
     const deleteid = deleteidinput.value;
-    socketClient.emit("deleteProduct", deleteid);
+
+    
+    console.log(`Intentando eliminar producto con ID: ${deleteid}`);
+
+    if (deleteid) {
+        socketClient.emit("deleteProduct", deleteid);
+    } else {
+      
+        console.log("ID del producto no proporcionado");
+    }
+
     deleteidinput.value = "";
 });
 
-// Manejador de errores de conexión de Socket.io
+
 socketClient.on('connect_error', (err) => {
     console.log(`Error de conexión: ${err.message}`);
 });

@@ -1,64 +1,22 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
-const productCollection = "products";
+const productsCollection = "products";
 
-const productSchema = new mongoose.Schema({
-
-    title: {
-        type: String,
-        required: true
-    },
-
-    description: {
-        type: String,
-        required: true
-    },
- 
-    price: {
-        type: Number,
-        required: true,
-        validate: {
-            validator: Number.isInteger,
-            message: "{VALUE} is not an integer value"
-        }
-    },
- 
-    stock: {
-        type: Number,
-        required: true,
-        validate: {
-            validator: Number.isInteger,
-            message: "{VALUE} is not an integer value"
-        }
-    },
-
-    thumbnail: {
-        type: String,
-        required: false
-    },
-
-    code: {
-        type: String,
-        unique: true,
-        required: true
-    },
-  
+const productsSchema = new mongoose.Schema({
+    title:{ type: String, required:true},
+    description: {type:String, required:true},
+    price: {type:Number, required:true},
+    code: {type:String,required:true, unique:true},
+    status: {type:Boolean, default:true},
+    thumbnail: {type:String, required:true},
+    stock: {type:Number, required:true},
     category: {
-        type: String,
-        required: true
-    },
- 
-    status: {
-        type: Boolean,
-        default: true
+        type:String,
+        required:true,
     }
-}, 
-{
- 
-    timestamps: true,
-}
-);
+});
 
-export const productsModel = mongoose.model(productCollection, productSchema);
+productsSchema.plugin(mongoosePaginate);
 
-export default mongoose.model('Product', productSchema);
+export const productsModel = mongoose.model(productsCollection,productsSchema);
